@@ -29,9 +29,7 @@ class Deposito {
         return productos.isEmpty();
     }
 
-    public void imprimirProductos() {
-        for (Producto producto : productos) {
-            System.out.println(producto.getNombre());
-        }
+    public int cantidadProductos(){
+        return productos.size();
     }
 }

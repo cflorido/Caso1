@@ -21,6 +21,7 @@ public class LineaProduccion {
         for (int i = 0; i < numOperarios; i++) {
             productores[i] = new Productor(i, buzonRevision, buzonReproceso);
             equipoCalidad[i] = new EquipoCalidad(i, buzonRevision, buzonReproceso, deposito, numProductos, numOperarios);
+            
         }
 
         for (Productor p : productores)

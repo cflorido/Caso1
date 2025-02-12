@@ -9,6 +9,7 @@ class BuzonReproceso {
     }
 
     public synchronized void depositar(Producto producto) throws InterruptedException {
+        System.out.println("se depositó en buzon de reproceso " + producto.getNombre());
         productos.add(producto);
         notifyAll(); // Notifica a los hilos en espera
     }

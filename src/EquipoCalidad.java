@@ -11,7 +11,7 @@ class EquipoCalidad extends Thread {
     private int fallosActuales = 0;
     private static final Object lock = new Object();
     private int numProductores;
-    private static boolean metaAlcanzada = false;
+    private boolean metaAlcanzada = false;
 
     public EquipoCalidad(int id, BuzonRevision buzonRevision, BuzonReproceso buzonReproceso, Deposito deposito, int totalProductos, int numProductores) {
         this.id = id;
@@ -23,16 +23,17 @@ class EquipoCalidad extends Thread {
         this.maxFallos = (int) Math.floor(totalProductos * 0.1);
     }
 
+    
+
     @Override
     public void run() {
         Random rand = new Random();
         try {
             while (true) {
-                if (buzonRevision.estaVacio() && productosAprobados >= totalProductos) {
+                if (buzonRevision.estaVacio() && deposito.cantidadProductos() >= totalProductos) {
                     System.out.println("Equipo de Calidad " + id + " finaliza.");
                     break;
-                }
-
+                }       
                 Producto producto = buzonRevision.retirar();
                 int resultado = rand.nextInt(100) + 1;
 
@@ -45,19 +46,19 @@ class EquipoCalidad extends Thread {
                         System.out.println("Equipo de Calidad " + id + " aprueba " + producto.getNombre());
                         deposito.depositar(producto);
                         productosAprobados++;
-
-                        if (productosAprobados >= totalProductos && !metaAlcanzada) {
-                            metaAlcanzada = true;
-                            System.out.println("Meta alcanzada. Enviando señales de FIN.");
-                            System.out.println("Equipo de Calidad " + id + " finaliza.");
-                            for (int i = 0; i < numProductores; i++) {
-                                buzonReproceso.depositar(new Producto("FIN"));
-                            }
-                            break;
-                        }
                     }
+
+                        if (deposito.cantidadProductos() >= totalProductos && !metaAlcanzada) {
+                            metaAlcanzada = true;
+                            System.out.println("Meta alcanzada" + id + ". Enviando señal de FIN " );
+                            buzonReproceso.depositar(new Producto("FIN"));
+                            
+                            
+                            
+                        }
+                    
                 }
-            }
+                        }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -1,9 +1,9 @@
 class Productor extends Thread {
-    private Buzon buzonRevision;
-    private Buzon buzonReproceso;
+    private BuzonRevision buzonRevision;
+    private BuzonReproceso buzonReproceso;
     private int id;
 
-    public Productor(int id, Buzon buzonRevision, Buzon buzonReproceso) {
+    public Productor(int id, BuzonRevision buzonRevision, BuzonReproceso buzonReproceso) {
         this.id = id;
         this.buzonRevision = buzonRevision;
         this.buzonReproceso = buzonReproceso;
@@ -13,21 +13,22 @@ class Productor extends Thread {
     public void run() {
         try {
             while (true) {
-                String producto;
-                // La tarea de reprocesar tiene prioridad sobre la de generar
+                Producto producto;
+                
                 if (!buzonReproceso.estaVacio()) {
                     producto = buzonReproceso.retirar();
-                    if (producto.equals("FIN")) {
-                        System.out.println("Productor " + id + " termina.");
+                    
+                    if (producto.getNombre().equals("FIN")) {
+                        System.out.println("Productor " + id + " recibe señal de FIN y termina.");
                         break;
                     }
-                    System.out.println("Productor " + id + " reprocesa " + producto);
+
+                    System.out.println("Productor " + id + " reprocesa " + producto.getNombre());
                 } else {
-                    producto = "Producto-" + id + " - time: " + System.currentTimeMillis();
-                    System.out.println("Productor " + id + " genera " + producto);
+                    producto = new Producto("Producto-" + id);
+                    System.out.println("Productor " + id + " genera " + producto.getNombre());
                 }
-                // Despues de reprocesar o generar, se almacenan los productos en ell buzon de
-                // revision
+
                 buzonRevision.depositar(producto);
             }
         } catch (InterruptedException e) {

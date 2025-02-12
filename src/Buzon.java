@@ -14,7 +14,13 @@ class Buzon {
 
     public synchronized void depositar(String producto) throws InterruptedException {
         while (productos.size() >= capacidad) {
-            wait(); // Espera pasiva si el buzón está lleno
+            try{
+
+            
+                wait(); }
+                catch(InterruptedException e){
+                    Thread.currentThread().interrupt();
+                }
         }
         productos.add(producto);
         notifyAll(); // Notifica a los hilos en espera

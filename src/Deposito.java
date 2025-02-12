@@ -9,6 +9,7 @@ class Deposito {
     }
 
     public synchronized void depositar(Producto producto) throws InterruptedException {
+        System.out.println("se depositó en deposito " + producto.getNombre());
         productos.add(producto);
         notifyAll(); // Notifica a los hilos en espera
     }
@@ -26,5 +27,11 @@ class Deposito {
 
     public synchronized boolean estaVacio() {
         return productos.isEmpty();
+    }
+
+    public void imprimirProductos() {
+        for (Producto producto : productos) {
+            System.out.println(producto.getNombre());
+        }
     }
 }

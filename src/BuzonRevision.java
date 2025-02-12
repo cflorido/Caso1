@@ -11,6 +11,7 @@ class BuzonRevision {
     }
 
     public synchronized void depositar(Producto producto) throws InterruptedException {
+        System.out.println("se depositó en buzon de revision " + producto.getNombre());
         while (productos.size() >= capacidad) {
             try{
 

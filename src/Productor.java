@@ -25,7 +25,8 @@ class Productor extends Thread {
 
                     System.out.println("Productor " + id + " reprocesa " + producto.getNombre());
                 } else {
-                    producto = new Producto("Producto-" + id);
+                    producto = new Producto("Producto-");
+                    producto.actualizarNombre();
                     System.out.println("Productor " + id + " genera " + producto.getNombre());
                 }
 

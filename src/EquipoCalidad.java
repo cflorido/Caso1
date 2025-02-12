@@ -11,6 +11,7 @@ class EquipoCalidad extends Thread {
     private int fallosActuales = 0;
     private static final Object lock = new Object();
     private int numProductores;
+    private static boolean metaAlcanzada = false;
 
     public EquipoCalidad(int id, BuzonRevision buzonRevision, BuzonReproceso buzonReproceso, Deposito deposito, int totalProductos, int numProductores) {
         this.id = id;
@@ -45,8 +46,10 @@ class EquipoCalidad extends Thread {
                         deposito.depositar(producto);
                         productosAprobados++;
 
-                        if (productosAprobados >= totalProductos) {
+                        if (productosAprobados >= totalProductos && !metaAlcanzada) {
+                            metaAlcanzada = true;
                             System.out.println("Meta alcanzada. Enviando señales de FIN.");
+                            System.out.println("Equipo de Calidad " + id + " finaliza.");
                             for (int i = 0; i < numProductores; i++) {
                                 buzonReproceso.depositar(new Producto("FIN"));
                             }

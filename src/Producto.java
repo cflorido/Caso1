@@ -1,8 +1,11 @@
 class Producto {
   private String nombre;
+  private static int contador = 0;
+  private int id;
  
 
   public Producto(String nombre) {
+      this.id = ++contador;
       this.nombre = nombre;
       
   }
@@ -11,7 +14,9 @@ class Producto {
       return nombre;
   }
 
- 
+  public void actualizarNombre() {
+      this.nombre = nombre + id;
+  }
   
 
   @Override

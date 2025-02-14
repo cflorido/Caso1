@@ -13,8 +13,7 @@ class EquipoCalidad extends Thread {
     private int numProductores;
     private boolean metaAlcanzada = false;
 
-    public EquipoCalidad(int id, BuzonRevision buzonRevision, BuzonReproceso buzonReproceso, Deposito deposito,
-            int totalProductos, int numProductores) {
+    public EquipoCalidad(int id, BuzonRevision buzonRevision, BuzonReproceso buzonReproceso, Deposito deposito, int totalProductos, int numProductores) {
         this.id = id;
         this.buzonRevision = buzonRevision;
         this.buzonReproceso = buzonReproceso;
@@ -24,6 +23,8 @@ class EquipoCalidad extends Thread {
         this.maxFallos = (int) Math.floor(totalProductos * 0.1);
     }
 
+    
+
     @Override
     public void run() {
         Random rand = new Random();
@@ -32,7 +33,7 @@ class EquipoCalidad extends Thread {
                 if (buzonRevision.estaVacio() && deposito.cantidadProductos() >= totalProductos) {
                     System.out.println("Equipo de Calidad " + id + " finaliza.");
                     break;
-                }
+                }       
                 Producto producto = buzonRevision.retirar();
                 int resultado = rand.nextInt(100) + 1;
 
@@ -47,15 +48,17 @@ class EquipoCalidad extends Thread {
                         productosAprobados++;
                     }
 
-                    if (deposito.cantidadProductos() >= totalProductos && !metaAlcanzada) {
-                        metaAlcanzada = true;
-                        System.out.println("Meta alcanzada equipo de calidad " + id + ". Enviando señal de FIN ");
-                        buzonReproceso.depositar(new Producto("FIN"));
-
-                    }
-
+                        if (deposito.cantidadProductos() >= totalProductos && !metaAlcanzada) {
+                            metaAlcanzada = true;
+                            System.out.println("Meta alcanzada equipo de calidad " + id +  ".Enviando señal de FIN " );
+                            buzonReproceso.depositar(new Producto("FIN"));
+                            
+                            
+                            
+                        }
+                    
                 }
-            }
+                        }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

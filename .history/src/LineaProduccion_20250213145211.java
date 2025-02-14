@@ -20,9 +20,8 @@ public class LineaProduccion {
 
         for (int i = 0; i < numOperarios; i++) {
             productores[i] = new Productor(i, buzonRevision, buzonReproceso);
-            equipoCalidad[i] = new EquipoCalidad(i, buzonRevision, buzonReproceso, deposito, numProductos,
-                    numOperarios);
-
+            equipoCalidad[i] = new EquipoCalidad(i, buzonRevision, buzonReproceso, deposito, numProductos, numOperarios);
+            
         }
 
         for (Productor p : productores)
@@ -39,7 +38,7 @@ public class LineaProduccion {
             e.printStackTrace();
         }
 
-        System.out.println("Produccion finalizada.");
+        System.out.println("Producción finalizada.");
         scanner.close();
     }
 }

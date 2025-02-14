@@ -13,12 +13,13 @@ class BuzonRevision {
     public synchronized void depositar(Producto producto) throws InterruptedException {
         System.out.println("se depositó en buzon de revision " + producto.getNombre());
         while (productos.size() >= capacidad) {
-            try {
+            try{
 
-                wait();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            
+                wait(); }
+                catch(InterruptedException e){
+                    Thread.currentThread().interrupt();
+                }
         }
         productos.add(producto);
         notifyAll(); // Notifica a los hilos en espera

@@ -49,7 +49,7 @@ class EquipoCalidad extends Thread {
 
                     if (deposito.cantidadProductos() >= totalProductos && !metaAlcanzada) {
                         metaAlcanzada = true;
-                        System.out.println("Meta alcanzada equipo de calidad " + id + ". Enviando señal de FIN ");
+                        System.out.println("Meta alcanzada equipo de calidad " + id + ".Enviando señal de FIN ");
                         buzonReproceso.depositar(new Producto("FIN"));
 
                     }

@@ -39,7 +39,7 @@ public class LineaProduccion {
             e.printStackTrace();
         }
 
-        System.out.println("Produccion finalizada.");
+        System.out.println("Producción finalizada.");
         scanner.close();
     }
 }

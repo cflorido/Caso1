@@ -11,7 +11,7 @@ class Deposito {
     public synchronized void depositar(Producto producto) throws InterruptedException {
         System.out.println("se depositó en deposito " + producto.getNombre());
         productos.add(producto);
-        notifyAll(); // Notifica a los hilos en espera
+        notifyAll(); 
     }
 
     public synchronized Producto retirar() throws InterruptedException {

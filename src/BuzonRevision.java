@@ -15,22 +15,27 @@ class BuzonRevision {
         while (productos.size() >= capacidad) {
             try {
 
-                wait();
+                wait(); // Espera pasiva si el buzón está lleno
+
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
         }
         productos.add(producto);
-        notifyAll(); // Notifica a los hilos en espera
+        notifyAll(); 
     }
 
-    public synchronized Producto retirar() throws InterruptedException {
+    public Producto retirar() throws InterruptedException {
         while (productos.isEmpty()) {
-            wait(); // Espera pasiva si está vacío
+            Thread.yield(); // Espera semi-activa
+            Thread.sleep(100); 
         }
-        Producto producto = productos.poll();
-        notifyAll(); // Notifica a los hilos en espera
-        return producto;
+
+        synchronized (this) {
+            Producto producto = productos.poll();
+            notifyAll(); // Notifica a los hilos en espera
+            return producto;
+        }
     }
 
     public synchronized boolean estaVacio() {
